@@ -1,2 +1,2 @@
-# spring-security-example
+# spring-security
  Simple Spring Security implementation
