@@ -1,10 +1,9 @@
-package com.agharibi.services.jpaservices;
+package com.example.demo.services.jpaservices;
 
-
-import com.agharibi.commands.ProductForm;
-import com.agharibi.converters.ProductFormToProduct;
-import com.agharibi.domain.Product;
-import com.agharibi.services.ProductService;
+import com.example.demo.commands.ProductForm;
+import com.example.demo.converters.ProductFormToProduct;
+import com.example.demo.domain.Product;
+import com.example.demo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -59,4 +58,5 @@ public class ProductServiceJpaDaoImpl extends AbstractJpaDaoService implements P
     public void setProductFormToProduct(ProductFormToProduct productFormToProduct) {
         this.productFormToProduct = productFormToProduct;
     }
+
 }

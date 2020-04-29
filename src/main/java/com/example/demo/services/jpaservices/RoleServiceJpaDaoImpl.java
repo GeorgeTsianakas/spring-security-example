@@ -1,7 +1,7 @@
-package com.agharibi.services.jpaservices;
+package com.example.demo.services.jpaservices;
 
-import com.agharibi.domain.security.Role;
-import com.agharibi.services.RoleService;
+import com.example.demo.domain.security.Role;
+import com.example.demo.services.RoleService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -40,4 +40,5 @@ public class RoleServiceJpaDaoImpl extends AbstractJpaDaoService implements Role
         em.remove(em.find(Role.class, id));
         em.getTransaction().commit();
     }
+
 }

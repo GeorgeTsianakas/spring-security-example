@@ -1,7 +1,7 @@
-package com.agharibi.services.jpaservices;
+package com.example.demo.services.jpaservices;
 
-import com.agharibi.domain.Order;
-import com.agharibi.services.OrderService;
+import com.example.demo.domain.Order;
+import com.example.demo.services.OrderService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -40,4 +40,5 @@ public class OrderServiceJpaDaoImpl extends AbstractJpaDaoService implements Ord
         em.remove(em.find(Order.class, id));
         em.getTransaction().commit();
     }
+
 }

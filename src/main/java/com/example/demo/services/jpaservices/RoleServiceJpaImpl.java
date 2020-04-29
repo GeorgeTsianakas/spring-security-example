@@ -1,5 +1,6 @@
 package com.example.demo.services.jpaservices;
 
+import com.example.demo.domain.security.Role;
 import com.example.demo.services.RoleService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

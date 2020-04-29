@@ -1,6 +1,7 @@
 package com.example.demo.bootstrap;
 
 import com.example.demo.domain.*;
+import com.example.demo.domain.security.Role;
 import com.example.demo.enums.OrderStatus;
 import com.example.demo.services.ProductService;
 import com.example.demo.services.RoleService;
