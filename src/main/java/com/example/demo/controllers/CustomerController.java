@@ -2,7 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.commands.CustomerForm;
 import com.example.demo.commands.validators.CustomerFormValidator;
-import com.example.demo.converters.CustomerFormToCustomer;
+import com.example.demo.converters.CustomerToCustomerForm;
 import com.example.demo.domain.Customer;
 import com.example.demo.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,24 @@ import javax.validation.Valid;
 public class CustomerController {
 
     private CustomerService customerService;
-    private Validator customerFromValidator;
-    private CustomerFormToCustomer customerFormToCustomer;
+    private Validator customerFormValidator;
+    private CustomerToCustomerForm customerToCustomerForm;
 
+    @Autowired
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+    @Autowired
+    @Qualifier("customerFormValidator")
+    public void setCustomerFormValidator(CustomerFormValidator customerFormValidator) {
+        this.customerFormValidator = customerFormValidator;
+    }
+
+    @Autowired
+    public void setCustomerToCustomerForm(CustomerToCustomerForm customerToCustomerForm) {
+        this.customerToCustomerForm = customerToCustomerForm;
+    }
 
     @RequestMapping({"/list", "/"})
     public String listCustomers(Model model) {
@@ -40,7 +55,10 @@ public class CustomerController {
 
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("customerForm", customerService.getById(id));
+
+        Customer customer = customerService.getById(id);
+
+        model.addAttribute("customerForm", customerToCustomerForm.convert(customer));
         return "customer/customerform";
     }
 
@@ -53,7 +71,7 @@ public class CustomerController {
     @RequestMapping(method = RequestMethod.POST)
     public String saveOrUpdate(@Valid CustomerForm customerForm, BindingResult bindingResult) {
 
-        customerFromValidator.validate(customerForm, bindingResult);
+        customerFormValidator.validate(customerForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "customer/customerform";
@@ -67,22 +85,6 @@ public class CustomerController {
     public String delete(@PathVariable Integer id) {
         customerService.delete(id);
         return "redirect:/customer/list";
-    }
-
-    @Autowired
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
-    }
-
-    @Autowired
-    @Qualifier("customerFormValidator")
-    public void setCustomerFromValidator(CustomerFormValidator customerFromValidator) {
-        this.customerFromValidator = customerFromValidator;
-    }
-
-    @Autowired
-    public void setCustomerFormToCustomer(CustomerFormToCustomer customerFormToCustomer) {
-        this.customerFormToCustomer = customerFormToCustomer;
     }
 
 }
