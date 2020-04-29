@@ -16,11 +16,6 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
 
     private EncryptionService encryptionService;
 
-    @Autowired
-    public void setEncryptionService(EncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
-    }
-
     @Override
     public List<?> listAll() {
         EntityManager em = emf.createEntityManager();
@@ -58,6 +53,17 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
         em.getTransaction().begin();
         em.remove(em.find(User.class, id));
         em.getTransaction().commit();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        EntityManager em = emf.createEntityManager();
+        return em.createQuery("from User where username = :userName", User.class).getSingleResult();
+    }
+
+    @Autowired
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
     }
 
 }

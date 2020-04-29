@@ -12,14 +12,9 @@ import java.util.List;
 
 @Service
 @Profile("springdatajpa")
-public class UserServiceRepoImpl implements UserService {
+public class UserRepoServiceImpl implements UserService {
 
     private UserRepository userRepository;
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<?> listAll() {
@@ -42,4 +37,16 @@ public class UserServiceRepoImpl implements UserService {
     public void delete(Integer id) {
         userRepository.delete(id);
     }
+
+    @Override
+    public User findByUsername(String username) {
+
+        return userRepository.findByUsername(username);
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
 }
