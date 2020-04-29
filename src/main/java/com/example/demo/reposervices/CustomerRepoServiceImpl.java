@@ -1,41 +1,44 @@
-package com.example.demo.services.mapservices;
+package com.example.demo.reposervices;
 
 import com.example.demo.commands.CustomerForm;
 import com.example.demo.converters.CustomerFormToCustomer;
 import com.example.demo.domain.Customer;
-import com.example.demo.domain.DomainObject;
+import com.example.demo.repositories.CustomerRepositroy;
 import com.example.demo.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Profile("map")
-public class CustomerServiceImpl extends AbstractMapService implements CustomerService {
+@Profile("springdatajpa")
+public class CustomerRepoServiceImpl implements CustomerService {
 
+    private CustomerRepositroy customerRepositroy;
     private CustomerFormToCustomer customerFormToCustomer;
 
     @Override
-    public List<DomainObject> listAll() {
-        return super.listAll();
+    public List<?> listAll() {
+        List<Customer> customers = new ArrayList<>();
+        customerRepositroy.findAll().forEach(customers::add);
+        return customers;
     }
 
     @Override
     public Customer getById(Integer id) {
-        return (Customer) super.getById(id);
+        return customerRepositroy.findOne(id);
     }
 
     @Override
     public Customer saveOrUpdate(Customer domainObject) {
-        return (Customer) super.saveOrUpdate(domainObject);
+        return customerRepositroy.save(domainObject);
     }
 
     @Override
     public void delete(Integer id) {
-        super.delete(id);
+        customerRepositroy.delete(id);
     }
 
     @Override
@@ -49,6 +52,10 @@ public class CustomerServiceImpl extends AbstractMapService implements CustomerS
         return saveOrUpdate(customer);
     }
 
+    @Autowired
+    public void setCustomerRepositroy(CustomerRepositroy customerRepositroy) {
+        this.customerRepositroy = customerRepositroy;
+    }
 
     @Autowired
     public void setCustomerFormToCustomer(CustomerFormToCustomer customerFormToCustomer) {

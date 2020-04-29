@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @Profile("map")
 public class OrderServiceMapImpl extends AbstractMapService implements OrderService {
+
     @Override
     public List<DomainObject> listAll() {
         return super.listAll();

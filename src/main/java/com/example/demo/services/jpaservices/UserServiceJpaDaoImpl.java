@@ -1,8 +1,9 @@
-package com.example.demo.services.jpaservices;
+package com.agharibi.services.jpaservices;
 
-import com.example.demo.domain.User;
-import com.example.demo.services.UserService;
-import com.example.demo.services.security.EncryptionService;
+
+import com.agharibi.domain.User;
+import com.agharibi.services.security.EncryptionService;
+import com.agharibi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
 
         em.getTransaction().begin();
 
-        if (domainObject.getPassword() != null) {
+        if(domainObject.getPassword() != null){
             domainObject.setEncryptedPassword(encryptionService.encryptString(domainObject.getPassword()));
         }
 
@@ -65,5 +66,4 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
     public void setEncryptionService(EncryptionService encryptionService) {
         this.encryptionService = encryptionService;
     }
-
 }

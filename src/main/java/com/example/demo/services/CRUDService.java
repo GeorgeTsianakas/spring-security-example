@@ -3,7 +3,6 @@ package com.example.demo.services;
 import java.util.List;
 
 public interface CRUDService<T> {
-
     List<?> listAll();
 
     T getById(Integer id);
@@ -11,5 +10,4 @@ public interface CRUDService<T> {
     T saveOrUpdate(T domainObject);
 
     void delete(Integer id);
-
 }

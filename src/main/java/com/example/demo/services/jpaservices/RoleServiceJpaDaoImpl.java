@@ -1,6 +1,7 @@
-package com.example.demo.services.jpaservices;
+package com.agharibi.services.jpaservices;
 
-import com.example.demo.services.RoleService;
+import com.agharibi.domain.security.Role;
+import com.agharibi.services.RoleService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -9,12 +10,11 @@ import java.util.List;
 
 @Service
 @Profile("jpadao")
-public class RoleServiceJpaImpl extends AbstractJpaDaoService implements RoleService {
+public class RoleServiceJpaDaoImpl extends AbstractJpaDaoService implements RoleService {
 
     @Override
     public List<?> listAll() {
         EntityManager em = emf.createEntityManager();
-
         return em.createQuery("from Role", Role.class).getResultList();
     }
 
@@ -27,22 +27,17 @@ public class RoleServiceJpaImpl extends AbstractJpaDaoService implements RoleSer
     @Override
     public Role saveOrUpdate(Role domainObject) {
         EntityManager em = emf.createEntityManager();
-
         em.getTransaction().begin();
-
-        Role saveRole = em.merge(domainObject);
+        Role role = em.merge(domainObject);
         em.getTransaction().commit();
-
-        return saveRole;
+        return role;
     }
 
     @Override
     public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
-
         em.getTransaction().begin();
         em.remove(em.find(Role.class, id));
         em.getTransaction().commit();
     }
-
 }

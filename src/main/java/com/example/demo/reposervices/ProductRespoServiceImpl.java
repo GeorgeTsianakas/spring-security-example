@@ -1,5 +1,7 @@
-package com.example.demo.services.reposervices;
+package com.example.demo.reposervices;
 
+import com.example.demo.commands.ProductForm;
+import com.example.demo.converters.ProductFormToProduct;
 import com.example.demo.domain.Product;
 import com.example.demo.repositories.ProductRepository;
 import com.example.demo.services.ProductService;
@@ -11,15 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Profile({"springdatajpa"})
-public class ProductServiceRepoImpl implements ProductService {
+@Profile("springdatajpa")
+public class ProductRespoServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
-
-    @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private ProductFormToProduct productFormToProduct;
 
     @Override
     public List<?> listAll() {
@@ -41,5 +39,23 @@ public class ProductServiceRepoImpl implements ProductService {
     @Override
     public void delete(Integer id) {
         productRepository.delete(id);
+
     }
+
+    @Override
+    public Product saveOrUpdate(ProductForm productForm) {
+        return saveOrUpdate(productFormToProduct.convert(productForm));
+    }
+
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Autowired
+    public void setProductFormToProduct(ProductFormToProduct productFormToProduct) {
+        this.productFormToProduct = productFormToProduct;
+    }
+
 }
+

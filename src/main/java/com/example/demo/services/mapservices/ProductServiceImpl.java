@@ -1,16 +1,22 @@
 package com.example.demo.services.mapservices;
 
+import com.example.demo.commands.ProductForm;
+import com.example.demo.converters.ProductFormToProduct;
 import com.example.demo.domain.DomainObject;
 import com.example.demo.domain.Product;
 import com.example.demo.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 @Profile("map")
 public class ProductServiceImpl extends AbstractMapService implements ProductService {
+
+    private ProductFormToProduct productFormToProduct;
 
     @Override
     public List<DomainObject> listAll() {
@@ -32,4 +38,15 @@ public class ProductServiceImpl extends AbstractMapService implements ProductSer
         super.delete(id);
     }
 
+    @Override
+    public Product saveOrUpdate(ProductForm productForm) {
+        return saveOrUpdate(productFormToProduct.convert(productForm));
+    }
+
+    @Autowired
+    public void setProductFormToProduct(ProductFormToProduct productFormToProduct) {
+        this.productFormToProduct = productFormToProduct;
+    }
+
 }
+

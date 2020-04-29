@@ -1,7 +1,7 @@
-package com.example.demo.services.jpaservices;
+package com.agharibi.services.jpaservices;
 
-import com.example.demo.domain.Order;
-import com.example.demo.services.OrderService;
+import com.agharibi.domain.Order;
+import com.agharibi.services.OrderService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -13,37 +13,31 @@ import java.util.List;
 public class OrderServiceJpaDaoImpl extends AbstractJpaDaoService implements OrderService {
 
     @Override
-    public List<Order> listAll() {
+    public List<?> listAll() {
         EntityManager em = emf.createEntityManager();
-
         return em.createQuery("from Order", Order.class).getResultList();
     }
 
     @Override
     public Order getById(Integer id) {
         EntityManager em = emf.createEntityManager();
-
         return em.find(Order.class, id);
     }
 
     @Override
     public Order saveOrUpdate(Order domainObject) {
         EntityManager em = emf.createEntityManager();
-
         em.getTransaction().begin();
-        Order savedProduct = em.merge(domainObject);
+        Order order = em.merge(domainObject);
         em.getTransaction().commit();
-
-        return savedProduct;
+        return order;
     }
 
     @Override
     public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
-
         em.getTransaction().begin();
         em.remove(em.find(Order.class, id));
         em.getTransaction().commit();
     }
-
 }

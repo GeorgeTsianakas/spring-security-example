@@ -1,4 +1,4 @@
-package com.example.demo.services.jpaservices;
+package com.agharibi.services.jpaservices;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -11,5 +11,4 @@ public class AbstractJpaDaoService {
     public void setEmf(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
 }

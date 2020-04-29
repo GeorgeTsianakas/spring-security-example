@@ -5,7 +5,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class OrderDetail extends AbstractDomainClass {
+public class OrderDetail extends AbstractDomain {
 
     @ManyToOne
     private Order order;

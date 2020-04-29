@@ -1,4 +1,4 @@
-package com.example.demo.services.reposervices;
+package com.example.demo.reposervices;
 
 import com.example.demo.domain.Order;
 import com.example.demo.repositories.OrderRepository;
@@ -12,14 +12,9 @@ import java.util.List;
 
 @Service
 @Profile("springdatajpa")
-public class OrderServiceRepoImpl implements OrderService {
+public class OrderRepoOrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
-
-    @Autowired
-    public void setOrderRepository(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
-    }
 
     @Override
     public List<?> listAll() {
@@ -41,6 +36,11 @@ public class OrderServiceRepoImpl implements OrderService {
     @Override
     public void delete(Integer id) {
         orderRepository.delete(id);
+    }
+
+    @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
 }

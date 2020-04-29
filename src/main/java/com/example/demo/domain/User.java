@@ -1,5 +1,7 @@
 package com.example.demo.domain;
 
+import com.example.demo.domain.security.Role;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

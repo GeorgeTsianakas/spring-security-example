@@ -5,7 +5,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class CartDetail extends AbstractDomainClass {
+public class CartDetail extends AbstractDomain {
 
     @ManyToOne
     private Cart cart;

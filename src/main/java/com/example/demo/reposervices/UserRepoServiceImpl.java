@@ -1,4 +1,4 @@
-package com.example.demo.services.reposervices;
+package com.example.demo.reposervices;
 
 import com.example.demo.domain.User;
 import com.example.demo.repositories.UserRepository;

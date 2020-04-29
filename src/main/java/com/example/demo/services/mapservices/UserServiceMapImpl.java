@@ -1,6 +1,5 @@
 package com.example.demo.services.mapservices;
 
-
 import com.example.demo.domain.DomainObject;
 import com.example.demo.domain.User;
 import com.example.demo.services.UserService;
