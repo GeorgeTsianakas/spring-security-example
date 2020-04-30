@@ -12,7 +12,7 @@
             th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
     <link href="../../static/css/spring-core.css"
-          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+          th:href="@{/css/spring-core.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
 <div class="container">
@@ -33,9 +33,9 @@
                 <td th:text="${user.username}"></td>
                 <td th:text="${user.customer.firstName}"></td>
                 <td th:text="${user.customer.lastName}"></td>
-                <td><a th:href="${'/user/show/' + user.id}">View</a></td>
-                <td><a th:href="${'/user/edit/' + user.id}">Edit</a></td>
-                <td><a th:href="${'/user/delete/' + user.id}">Delete</a></td>
+                <td><a th:href="${'/user/show/' + user.id}">View</a> </td>
+                <td><a th:href="${'/user/edit/' + user.id}">Edit</a> </td>
+                <td><a th:href="${'/user/delete/' + user.id}">Delete</a> </td>
             </tr>
         </table>
     </div>

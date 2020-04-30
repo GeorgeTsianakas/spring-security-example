@@ -12,7 +12,7 @@
             th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
     <link href="../../static/css/spring-core.css"
-          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+          th:href="@{/css/spring-core.css}" rel="stylesheet" media="screen"/>
 </head>
 <body>
 <div class="container">
@@ -40,7 +40,7 @@
                     <div class="form-group" th:class="${param.error} ? 'form-group has-error' : 'form-group'">
                         <label class="col-sm-2 control-label">Password:</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" name="password" id="password"/>
+                            <input type="password"  class="form-control" name="password" id="password"/>
                         </div>
                     </div>
 

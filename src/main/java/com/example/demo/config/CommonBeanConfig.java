@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class CommonBeanConfig {
 
     @Bean
-    public StrongPasswordEncryptor strongEncryptor(){
+    public StrongPasswordEncryptor strongEncryptor() {
         StrongPasswordEncryptor encryptor = new StrongPasswordEncryptor();
         return encryptor;
     }
