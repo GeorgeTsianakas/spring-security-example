@@ -3,63 +3,78 @@ package com.example.demo.reposervices;
 import com.example.demo.commands.CustomerForm;
 import com.example.demo.converters.CustomerFormToCustomer;
 import com.example.demo.domain.Customer;
-import com.example.demo.repositories.CustomerRepositroy;
+import com.example.demo.repositories.CustomerRepository;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Profile("springdatajpa")
-public class CustomerRepoServiceImpl implements CustomerService {
+public class CustomerServiceRepoImpl implements CustomerService {
 
-    private CustomerRepositroy customerRepositroy;
+    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
     private CustomerFormToCustomer customerFormToCustomer;
 
-    @Override
-    public List<?> listAll() {
-        List<Customer> customers = new ArrayList<>();
-        customerRepositroy.findAll().forEach(customers::add);
-        return customers;
-    }
-
-    @Override
-    public Customer getById(Integer id) {
-        return customerRepositroy.findOne(id);
-    }
-
-    @Override
-    public Customer saveOrUpdate(Customer domainObject) {
-        return customerRepositroy.save(domainObject);
-    }
-
-    @Override
-    public void delete(Integer id) {
-        customerRepositroy.delete(id);
-    }
-
-    @Override
-    public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
-        Customer customer = customerFormToCustomer.convert(customerForm);
-
-        if (customer.getUser().getId() != null) {
-            Customer existingCustomer = getById(customer.getId());
-            customer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
-        }
-        return saveOrUpdate(customer);
+    @Autowired
+    public void setCustomerRepository(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     @Autowired
-    public void setCustomerRepositroy(CustomerRepositroy customerRepositroy) {
-        this.customerRepositroy = customerRepositroy;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Autowired
     public void setCustomerFormToCustomer(CustomerFormToCustomer customerFormToCustomer) {
         this.customerFormToCustomer = customerFormToCustomer;
+    }
+
+    @Override
+    public List<?> listAll() {
+        List<Customer> customers = new ArrayList<>();
+        customerRepository.findAll().forEach(customers::add); //fun with Java 8
+        return customers;
+    }
+
+    @Override
+    public Customer getById(Integer id) {
+        return customerRepository.findOne(id);
+    }
+
+    @Override
+    public Customer saveOrUpdate(Customer domainObject) {
+        return customerRepository.save(domainObject);
+    }
+
+    @Override
+    public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
+        Customer newCustomer = customerFormToCustomer.convert(customerForm);
+
+        if(newCustomer.getUser().getId() != null){
+            Customer existingCustomer = getById(newCustomer.getId());
+
+            newCustomer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
+        }
+
+        return saveOrUpdate(newCustomer);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer id) {
+
+        Customer customer = customerRepository.findOne(id);
+
+        userRepository.delete(customer.getUser());
+        customerRepository.delete(customer);
     }
 
 }

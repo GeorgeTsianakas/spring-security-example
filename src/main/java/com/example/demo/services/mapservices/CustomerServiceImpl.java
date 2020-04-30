@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -17,6 +16,11 @@ import java.util.List;
 public class CustomerServiceImpl extends AbstractMapService implements CustomerService {
 
     private CustomerFormToCustomer customerFormToCustomer;
+
+    @Autowired
+    public void setCustomerFormToCustomer(CustomerFormToCustomer customerFormToCustomer) {
+        this.customerFormToCustomer = customerFormToCustomer;
+    }
 
     @Override
     public List<DomainObject> listAll() {
@@ -40,19 +44,15 @@ public class CustomerServiceImpl extends AbstractMapService implements CustomerS
 
     @Override
     public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
-        Customer customer = customerFormToCustomer.convert(customerForm);
+        Customer newCustomer = customerFormToCustomer.convert(customerForm);
 
-        if (customer.getUser().getId() != null) {
-            Customer existingCustomer = getById(customer.getId());
-            customer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
+        if (newCustomer.getUser().getId() != null) {
+            Customer existingCustomer = getById(newCustomer.getId());
+
+            newCustomer.getUser().setEnabled(existingCustomer.getUser().getEnabled());
         }
-        return saveOrUpdate(customer);
-    }
 
-
-    @Autowired
-    public void setCustomerFormToCustomer(CustomerFormToCustomer customerFormToCustomer) {
-        this.customerFormToCustomer = customerFormToCustomer;
+        return saveOrUpdate(newCustomer);
     }
 
 }

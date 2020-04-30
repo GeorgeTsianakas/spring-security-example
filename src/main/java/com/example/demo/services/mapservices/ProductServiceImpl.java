@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -17,6 +16,12 @@ import java.util.*;
 public class ProductServiceImpl extends AbstractMapService implements ProductService {
 
     private ProductFormToProduct productFormToProduct;
+
+    @Autowired
+    public void setProductFormToProduct(ProductFormToProduct productFormToProduct) {
+        this.productFormToProduct = productFormToProduct;
+    }
+
 
     @Override
     public List<DomainObject> listAll() {
@@ -34,19 +39,13 @@ public class ProductServiceImpl extends AbstractMapService implements ProductSer
     }
 
     @Override
-    public void delete(Integer id) {
-        super.delete(id);
-    }
-
-    @Override
     public Product saveOrUpdate(ProductForm productForm) {
         return saveOrUpdate(productFormToProduct.convert(productForm));
     }
 
-    @Autowired
-    public void setProductFormToProduct(ProductFormToProduct productFormToProduct) {
-        this.productFormToProduct = productFormToProduct;
+    @Override
+    public void delete(Integer id) {
+        super.delete(id);
     }
 
 }
-

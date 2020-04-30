@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ORDER_HEADER")
-public class Order extends AbstractDomain {
+public class Order extends AbstractDomainClass {
 
     @OneToOne
     private Customer customer;
@@ -47,6 +47,16 @@ public class Order extends AbstractDomain {
         this.orderDetails = orderDetails;
     }
 
+    public void addToOrderDetails(OrderDetail orderDetail) {
+        orderDetail.setOrder(this);
+        orderDetails.add(orderDetail);
+    }
+
+    public void removeOrderDetail(OrderDetail orderDetail) {
+        orderDetail.setOrder(null);
+        orderDetails.remove(orderDetail);
+    }
+
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
@@ -61,16 +71,6 @@ public class Order extends AbstractDomain {
 
     public void setDateShipped(Date dateShipped) {
         this.dateShipped = dateShipped;
-    }
-
-    public void addToOrderDetails(OrderDetail orderDetail) {
-        orderDetail.setOrder(this);
-        orderDetails.add(orderDetail);
-    }
-
-    public void removeOrderDetails(OrderDetail orderDetail) {
-        orderDetail.setOrder(null);
-        orderDetails.remove(orderDetail);
     }
 
 }

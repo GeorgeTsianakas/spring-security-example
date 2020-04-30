@@ -12,14 +12,19 @@ import java.util.List;
 
 @Service
 @Profile("springdatajpa")
-public class OrderRepoOrderServiceImpl implements OrderService {
+public class OrderServiceRepoImpl implements OrderService {
 
     private OrderRepository orderRepository;
+
+    @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @Override
     public List<?> listAll() {
         List<Order> orders = new ArrayList<>();
-        orderRepository.findAll().forEach(orders::add);
+        orderRepository.findAll().forEach(orders::add); //fun with Java 8
         return orders;
     }
 
@@ -36,11 +41,6 @@ public class OrderRepoOrderServiceImpl implements OrderService {
     @Override
     public void delete(Integer id) {
         orderRepository.delete(id);
-    }
-
-    @Autowired
-    public void setOrderRepository(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
     }
 
 }

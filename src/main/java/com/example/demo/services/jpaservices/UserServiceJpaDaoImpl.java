@@ -1,6 +1,5 @@
 package com.example.demo.services.jpaservices;
 
-
 import com.example.demo.domain.User;
 import com.example.demo.services.UserService;
 import com.example.demo.services.security.EncryptionService;
@@ -16,6 +15,11 @@ import java.util.List;
 public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements UserService {
 
     private EncryptionService encryptionService;
+
+    @Autowired
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
 
     @Override
     public List<?> listAll() {
@@ -37,7 +41,7 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
 
         em.getTransaction().begin();
 
-        if (domainObject.getPassword() != null) {
+        if(domainObject.getPassword() != null){
             domainObject.setEncryptedPassword(encryptionService.encryptString(domainObject.getPassword()));
         }
 
@@ -57,14 +61,10 @@ public class UserServiceJpaDaoImpl extends AbstractJpaDaoService implements User
     }
 
     @Override
-    public User findByUsername(String username) {
+    public User findByUsername(String userName) {
         EntityManager em = emf.createEntityManager();
-        return em.createQuery("from User where username = :userName", User.class).getSingleResult();
-    }
 
-    @Autowired
-    public void setEncryptionService(EncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
+        return em.createQuery("from User where username = :userName", User.class).getSingleResult();
     }
 
 }

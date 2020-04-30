@@ -15,6 +15,11 @@ public class UserController {
 
     private UserService userService;
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @RequestMapping({"/list", "/"})
     public String listUsers(Model model) {
         model.addAttribute("users", userService.listAll());
@@ -27,7 +32,7 @@ public class UserController {
         return "user/show";
     }
 
-    @RequestMapping("edit/{id}")
+    @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         model.addAttribute("user", userService.getById(id));
         return "user/userform";
@@ -41,19 +46,14 @@ public class UserController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String saveOrUpdate(User user) {
-        user = userService.saveOrUpdate(user);
-        return "redirect:/user/show" + user.getId();
+        User savedUser = userService.saveOrUpdate(user);
+        return "redirect:/user/show/" + savedUser.getId();
     }
 
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
         userService.delete(id);
         return "redirect:/user/list";
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 
 }

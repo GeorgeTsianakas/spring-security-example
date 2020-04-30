@@ -1,6 +1,5 @@
 package com.example.demo.commands;
 
-
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 

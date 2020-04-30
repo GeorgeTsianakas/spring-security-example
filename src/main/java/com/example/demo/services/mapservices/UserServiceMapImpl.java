@@ -3,12 +3,25 @@ package com.example.demo.services.mapservices;
 import com.example.demo.domain.DomainObject;
 import com.example.demo.domain.User;
 import com.example.demo.services.UserService;
+import com.example.demo.services.security.EncryptionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+@Service
+@Profile("map")
 public class UserServiceMapImpl extends AbstractMapService implements UserService {
+
+    private EncryptionService encryptionService;
+
+    @Autowired
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
 
     @Override
     public List<DomainObject> listAll() {
@@ -22,24 +35,31 @@ public class UserServiceMapImpl extends AbstractMapService implements UserServic
 
     @Override
     public User saveOrUpdate(User domainObject) {
-        return (User) super.saveOrUpdate(domainObject);
-    }
 
-    @Override
-    public User findByUsername(String username) {
-        Optional<DomainObject> user = domainMap.values().stream().filter(new Predicate<DomainObject>() {
-            @Override
-            public boolean test(DomainObject domainObject) {
-                User user = (User) domainObject;
-                return user.getUsername().equals(username);
-            }
-        }).findFirst();
-        return (User) user.get();
+        if (domainObject.getPassword() != null) {
+            domainObject.setEncryptedPassword(encryptionService.encryptString(domainObject.getPassword()));
+        }
+
+        return (User) super.saveOrUpdate(domainObject);
     }
 
     @Override
     public void delete(Integer id) {
         super.delete(id);
+    }
+
+    @Override
+    public User findByUsername(String userName) {
+
+        Optional returnUser = domainMap.values().stream().filter(new Predicate<DomainObject>() {
+            @Override
+            public boolean test(DomainObject domainObject) {
+                User user = (User) domainObject;
+                return user.getUsername().equalsIgnoreCase(userName);
+            }
+        }).findFirst();
+
+        return (User) returnUser.get();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.demo.domain.security;
 
-import com.example.demo.domain.AbstractDomain;
+import com.example.demo.domain.AbstractDomainClass;
 import com.example.demo.domain.User;
 
 import javax.persistence.Entity;
@@ -11,21 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Role extends AbstractDomain {
+public class Role extends AbstractDomainClass {
 
     private String role;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
     private List<User> users = new ArrayList<>();
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 
     public String getRole() {
         return role;
@@ -35,11 +27,22 @@ public class Role extends AbstractDomain {
         this.role = role;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public void addUser(User user) {
-        if (!this.users.contains(user))
+        if (!this.users.contains(user)) {
             this.users.add(user);
-        if (!user.getRoles().contains(this))
+        }
+
+        if (!user.getRoles().contains(this)) {
             user.getRoles().add(this);
+        }
     }
 
     public void removeUser(User user) {

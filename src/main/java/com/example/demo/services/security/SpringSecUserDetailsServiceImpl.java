@@ -16,12 +16,6 @@ public class SpringSecUserDetailsServiceImpl implements UserDetailsService {
     private UserService userService;
     private Converter<User, UserDetails> userUserDetailsConverter;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        return userUserDetailsConverter.convert(userService.findByUsername(username));
-    }
-
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -31,6 +25,11 @@ public class SpringSecUserDetailsServiceImpl implements UserDetailsService {
     @Qualifier(value = "userToUserDetails")
     public void setUserUserDetailsConverter(Converter<User, UserDetails> userUserDetailsConverter) {
         this.userUserDetailsConverter = userUserDetailsConverter;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userUserDetailsConverter.convert(userService.findByUsername(username));
     }
 
 }
