@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Cart extends AbstractDomainClass{
+public class Cart extends AbstractDomainClass {
 
     @OneToOne
     private User user;
@@ -29,12 +29,12 @@ public class Cart extends AbstractDomainClass{
         this.cartDetails = cartDetails;
     }
 
-    public void addCartDetail(CartDetail cartDetail){
+    public void addCartDetail(CartDetail cartDetail) {
         cartDetails.add(cartDetail);
         cartDetail.setCart(this);
     }
 
-    public void removeCartDetail(CartDetail cartDetail){
+    public void removeCartDetail(CartDetail cartDetail) {
         cartDetail.setCart(null);
         this.cartDetails.remove(cartDetail);
     }

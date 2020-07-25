@@ -58,7 +58,7 @@ public class CustomerServiceRepoImpl implements CustomerService {
     public Customer saveOrUpdateCustomerForm(CustomerForm customerForm) {
         Customer newCustomer = customerFormToCustomer.convert(customerForm);
 
-        if(newCustomer.getUser().getId() != null){
+        if (newCustomer.getUser().getId() != null) {
             Customer existingCustomer = getById(newCustomer.getId());
 
             newCustomer.getUser().setEnabled(existingCustomer.getUser().getEnabled());

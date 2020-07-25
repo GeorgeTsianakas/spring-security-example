@@ -56,7 +56,7 @@ public class AbstractDomain implements DomainObject {
     @PrePersist
     public void upateTimeStamps() {
         lastUpdated = new Date();
-        if(dateCreated == null) {
+        if (dateCreated == null) {
             dateCreated = new Date();
         }
     }
